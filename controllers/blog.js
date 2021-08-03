@@ -13,7 +13,8 @@ exports.create = (req, res) => {
             Blog.create({ title, body, userId: authUserId }).then((result) => {
                 console.log('Blog created', result);
                 res.json({
-                    message: 'Blog successfully created.'
+                    message: 'Blog successfully created.',
+                    result
                 })
             }).catch((err) => {
                 console.log('Blog create error', err);
@@ -33,4 +34,61 @@ exports.create = (req, res) => {
         });
       });
     
+}
+
+exports.list = (req, res) => {
+    Blog.findAll().then((data) => {
+        console.log(data);
+        res.json(data);
+    }).catch((err) => {
+        console.log(err);
+        res.status(400).json({
+            error: 'Could not retreive blogs from database.'
+        })
+    })
+}
+
+exports.read = (req, res) => {
+    const {id} = req.params;
+    Blog.findAll({ where: { id: id}}).then((result) => {
+        console.log(result);
+        res.json(result);
+    }).catch((err) => {
+        console.log('Blog search by id err', err);
+        res.status(400).json({
+            error: 'Error retreiving blog from database.'
+        })
+    })
+}
+
+exports.update = (req, res) => {
+    const {id} = req.params;
+    const {title, body} = req.body;
+
+    Blog.update({ title, body }, { where: {id: id}}).then((edited) => {
+        res.json({
+            message: 'Blog successfully edited',
+            edited
+        })
+    }).catch((err) => {
+        console.log('Blog update err', err);
+        res.status(400).json({
+            error: 'Error updating the blog. Try again.'
+        })
+    })
+}
+
+exports.remove = (req, res) => {
+    const {id} = req.params;
+    Blog.destroy({ where: {id: id}}).then((destroyed) => {
+        console.log(destroyed);
+        res.json({
+            message: 'Blog successfully deleted'
+        })
+    }).catch((err) => {
+        console.log(err);
+        res.status(400).json({
+            error: 'Error deleting your blog. Try again later.'
+        })
+    })
 }
