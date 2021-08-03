@@ -3,13 +3,14 @@ const router = express.Router();
 
 // import validators
 const {resetPasswordValidator, userLoginValidator, userRegisterValidator, forgotPasswordValidator} = require('../validators/auth');
+const { runValidation } = require('../validators/index');
 
 //import from controllers
 const { register, login, forgotPassword, resetPassword } = require('../controllers/auth');
 
-router.post('/register', register);
-router.post('/login', login);
-router.put('/forgot-password', forgotPassword);
-router.put('/reset-password', resetPassword);
+router.post('/register', userRegisterValidator, runValidation, register);
+router.post('/login', userLoginValidator, runValidation, login);
+router.put('/forgot-password', forgotPasswordValidator, runValidation, forgotPassword);
+router.put('/reset-password', resetPasswordValidator, runValidation, resetPassword);
 
 module.exports = router;
