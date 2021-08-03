@@ -20,6 +20,10 @@ const User = sequelize.define("user", {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  resetPasswordLink: {
+    type: Sequelize.STRING,
+    defaultValue: ""
+  }
 });
 
 module.exports = User;

@@ -3,6 +3,8 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 require('dotenv').config();
+const User = require('./model/user');
+const Blog = require('./model/blog');
 
 const app = express();
 
@@ -11,6 +13,7 @@ const sequelize = require('./util/database');
 
 // import routes
 const authRoutes = require('./routes/auth');
+const blogRoutes = require('./routes/blog');
 
 // app middlewares
 app.use(morgan("dev"));
@@ -26,8 +29,13 @@ sequelize.sync()
     console.log(err);
 })
 
+// database relationships
+Blog.belongsTo(User, { constraints: true, onDelete: 'CASCADE'});
+// User.hasMany(Blog);
+
 // middilewares
 app.use('/api', authRoutes);
+app.use('/api', blogRoutes);
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`API is running on port ${port}`));

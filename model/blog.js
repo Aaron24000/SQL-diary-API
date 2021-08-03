@@ -9,9 +9,13 @@ const Blog = sequelize.define('blog', {
         primaryKey: true
     },
     title: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(70),
         allowNull: false
     },
+    body: {
+        type: Sequelize.STRING(2000),
+        allowNull: false
+    }
 })
 
 module.exports = Blog;
