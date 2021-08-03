@@ -1,7 +1,7 @@
 const Blog = require('../model/blog');
 
 exports.create = (req, res) => {
-    const { title, body } = req.body;
+    const { imageUrl, title, body } = req.body;
     console.log('Create message', title, body);
 
     // // posted by user
@@ -10,7 +10,7 @@ exports.create = (req, res) => {
     // Create blog
     Blog.findOne({ where: { title: title}}).then((blog) => {
         if(!blog) {
-            Blog.create({ title, body, userId: authUserId }).then((result) => {
+            Blog.create({ imageUrl, title, body, userId: authUserId }).then((result) => {
                 console.log('Blog created', result);
                 res.json({
                     message: 'Blog successfully created.',
@@ -63,9 +63,9 @@ exports.read = (req, res) => {
 
 exports.update = (req, res) => {
     const {id} = req.params;
-    const {title, body} = req.body;
+    const {imageUrl, title, body} = req.body;
 
-    Blog.update({ title, body }, { where: {id: id}}).then((edited) => {
+    Blog.update({ imageUrl, title, body }, { where: {id: id}}).then((edited) => {
         res.json({
             message: 'Blog successfully edited',
             edited

@@ -8,6 +8,10 @@ const Blog = sequelize.define('blog', {
         allowNull: false,
         primaryKey: true
     },
+    imageUrl: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
     title: {
         type: Sequelize.STRING(70),
         allowNull: false
